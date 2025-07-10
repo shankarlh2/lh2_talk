@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useAudioRecorder } from '../hooks/useAudioRecorder';
 import { MicIcon } from './icons/MicIcon';
 import { StopIcon } from './icons/StopIcon';
@@ -12,115 +12,62 @@ interface RecorderControlProps {
 
 export const RecorderControl: React.FC<RecorderControlProps> = ({ onStop, onCancel, disabled }) => {
   const { recorderState, startRecording, stopRecording, permission, error, elapsedTime } = useAudioRecorder(onStop);
-
   const isRecording = recorderState === 'recording';
 
   if (error) {
     return (
-      <div className="w-full max-w-md mx-auto text-center glass-dark p-6 rounded-2xl border border-red-500/20 animate-fade-in">
-        <div className="flex items-center justify-center mb-4">
-          <span className="status-indicator recording"></span>
-          <h3 className="text-lg font-semibold text-red-300">Permission Error</h3>
-        </div>
-        <p className="text-red-200 mb-4">{error}</p>
-        <p className="text-sm text-gray-400 mb-4">
-          Please allow microphone access in your browser settings and refresh the page.
-        </p>
-        <button onClick={onCancel} className="btn-secondary">
-          Go Back
-        </button>
-      </div>
-    );
-  }
-
-  if (!isRecording && !elapsedTime) {
-    return (
-      <div className="w-full max-w-md mx-auto text-center glass-dark p-8 rounded-2xl border border-yellow-500/20 animate-fade-in">
-        <div className="flex items-center justify-center mb-4">
-          <span className="status-indicator processing"></span>
-          <h3 className="text-lg font-semibold text-yellow-300">Microphone Access Required</h3>
-        </div>
-        <p className="text-yellow-200 mb-6">
-          Please grant permission to use your microphone to begin recording.
-        </p>
-        <button onClick={startRecording} className="btn-primary mb-4">
-          Grant Permission & Start Recording
-        </button>
-        <button onClick={onCancel} className="btn-secondary">
-          Cancel
-        </button>
+      <div className="text-center" style={{ color: '#f87171', fontWeight: 500 }}>
+        <p>{error}</p>
+        <button className="btn-secondary mt-4" onClick={onCancel}>Go Back</button>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-lg mx-auto flex flex-col items-center justify-center space-y-8 animate-fade-in">
-      {/* Recording Status */}
-      <div className="text-center">
-        <div className="flex items-center justify-center mb-4">
-          <span className="status-indicator recording"></span>
-          <h3 className="text-xl font-semibold text-red-300">Recording in Progress</h3>
-        </div>
-        <p className="text-gray-400">Your meeting is being recorded...</p>
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+        <span style={{ fontSize: '1.2rem', fontWeight: 600, color: '#fff' }}>{isRecording ? 'Recording in Progress' : 'Ready to Record'}</span>
+        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '2rem', color: '#fff', letterSpacing: '0.1em' }}>{elapsedTime}</span>
       </div>
-
-      {/* Recording Button */}
-      <div className="relative">
-        <button
-          onClick={isRecording ? stopRecording : startRecording}
-          disabled={disabled}
-          className={`record-button ${isRecording ? 'recording' : ''} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-        >
-          {isRecording ? (
-            <StopIcon />
-          ) : (
-            <MicIcon />
-          )}
-          {isRecording && (
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-          )}
-        </button>
-      </div>
-
-      {/* Timer Display */}
-      <div className="text-center">
-        <div className="timer mb-2">{elapsedTime}</div>
-        <p className="text-lg font-semibold text-gray-400">
-          {isRecording ? 'Recording...' : 'Ready to record'}
-        </p>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-        {isRecording && (
+      <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+        {!isRecording && (
           <button
-            onClick={stopRecording}
-            className="btn-danger flex items-center space-x-2"
+            className="record-btn"
+            style={{ background: '#ef4444', color: '#fff', border: 'none', borderRadius: '50%', width: 64, height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, boxShadow: '0 2px 8px rgba(239,68,68,0.15)', cursor: 'pointer', transition: 'background 0.2s' }}
+            onClick={startRecording}
+            disabled={disabled}
+            title="Start Recording"
           >
-            <StopIcon />
-            <span>Stop Recording</span>
+            <MicIcon />
           </button>
         )}
-        
+        {isRecording && (
+          <button
+            className="record-btn"
+            style={{ background: '#ef4444', color: '#fff', border: 'none', borderRadius: '50%', width: 64, height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, boxShadow: '0 2px 8px rgba(239,68,68,0.15)', cursor: 'pointer', transition: 'background 0.2s' }}
+            onClick={stopRecording}
+            disabled={disabled}
+            title="Stop Recording"
+          >
+            <StopIcon />
+          </button>
+        )}
         <button
+          className="record-btn"
+          style={{ background: '#232946', color: '#a5b4fc', border: 'none', borderRadius: '50%', width: 64, height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, boxShadow: '0 2px 8px rgba(37,99,235,0.08)', cursor: 'pointer', transition: 'background 0.2s' }}
           onClick={onCancel}
-          className="btn-secondary flex items-center space-x-2"
+          title="Cancel"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-          <span>Cancel</span>
+          <svg width={32} height={32} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
         </button>
       </div>
-
-      {/* Recording Tips */}
-      <div className="w-full max-w-md text-center p-4 glass rounded-xl border border-gray-700/30">
-        <h4 className="text-sm font-semibold text-gray-300 mb-2">Recording Tips</h4>
-        <ul className="text-xs text-gray-400 space-y-1">
-          <li>• Speak clearly and at a normal pace</li>
-          <li>• Minimize background noise</li>
-          <li>• Keep your microphone close</li>
-          <li>• Recording will automatically analyze when stopped</li>
+      <div style={{ marginTop: '1.5rem', width: '100%' }}>
+        <h4 style={{ color: '#a5b4fc', fontWeight: 600, fontSize: '1rem', marginBottom: '0.5rem' }}>Recording Tips</h4>
+        <ul style={{ color: '#cbd5e1', fontSize: '0.95rem', paddingLeft: '1.2rem', margin: 0 }}>
+          <li>Speak clearly and at a normal pace</li>
+          <li>Minimize background noise</li>
+          <li>Keep your microphone close</li>
+          <li>Recording will automatically analyze when stopped</li>
         </ul>
       </div>
     </div>

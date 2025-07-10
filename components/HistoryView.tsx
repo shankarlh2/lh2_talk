@@ -24,7 +24,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ meetings, onNewMeeting
     if (window.confirm('Are you sure you want to delete this meeting?')) {
       const updated = meetings.filter(m => m.date !== date);
       localStorage.setItem('meetingsHistory', JSON.stringify(updated));
-      window.location.reload(); // quick way to refresh, or lift state up for better UX
+      window.location.reload();
     }
   };
 
@@ -59,10 +59,11 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ meetings, onNewMeeting
         </div>
         
         {meetings.length === 0 ? (
-          <div className="text-center py-16 glass rounded-2xl border border-gray-700/30">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gray-700/30 flex items-center justify-center">
-              <svg width={16} height={16} style={{ minWidth: 16, minHeight: 16, maxWidth: 16, maxHeight: 16, display: 'block' }} className="text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          <div className="text-center py-12">
+            <div className="mb-4">
+              <svg width={20} height={20} style={{ minWidth: 20, minHeight: 20, maxWidth: 20, maxHeight: 20, display: 'inline-block', color: '#a5b4fc' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="#a5b4fc" strokeWidth="2" fill="none" />
+                <path d="M9 12l2 2 4-4" stroke="#a5b4fc" strokeWidth="2" fill="none" />
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-300 mb-2">No meetings yet</h3>

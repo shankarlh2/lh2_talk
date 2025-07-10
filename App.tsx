@@ -96,7 +96,7 @@ const App: React.FC = () => {
 
     if (appState === 'recording') {
       return (
-        <div className="w-full max-w-md mx-auto bg-white/5 rounded-xl shadow-lg p-8 flex flex-col items-center gap-8">
+        <div className="card max-w-xl mx-auto">
           <RecorderControl onStop={handleRecordingStop} onCancel={handleBackToHistory} disabled={false} />
         </div>
       );
@@ -104,7 +104,7 @@ const App: React.FC = () => {
 
     if (selectedMeeting) {
       return (
-        <div className="w-full">
+        <div className="card max-w-xl mx-auto">
           <ResultsDisplay result={selectedMeeting} onBack={handleBackToHistory} />
         </div>
       );
@@ -112,56 +112,44 @@ const App: React.FC = () => {
     
     // Default to history view
     return (
-      <div className="w-full flex flex-col gap-10">
+      <div className="card max-w-xl mx-auto">
         <HistoryView meetings={meetings} onNewMeeting={handleStartRecording} onSelectMeeting={setSelectedMeeting} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 font-sans flex flex-col items-center p-4">
-      <div className="w-full max-w-3xl mx-auto flex flex-col items-center">
-        <header className="w-full text-center mt-10 mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-3 tracking-tight">Meeting Minutes AI</h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-6">Transform your meetings into actionable insights with AI-powered analysis</p>
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-2">
-            <span className="inline-flex items-center gap-2 bg-gray-800 px-3 py-1 rounded-full text-xs font-medium text-blue-300">
-              <span className="status-indicator complete"></span>Powered by Gemini
-            </span>
-            <span className="inline-flex items-center gap-2 bg-gray-800 px-3 py-1 rounded-full text-xs font-medium text-green-300">
-              <span className="status-indicator complete"></span>Real-time Analysis
-            </span>
-            <span className="inline-flex items-center gap-2 bg-gray-800 px-3 py-1 rounded-full text-xs font-medium text-teal-300">
-              <span className="status-indicator complete"></span>Secure & Private
-            </span>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="card max-w-xl mx-auto" style={{ marginTop: '2.5rem', marginBottom: '2.5rem', boxShadow: '0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10)' }}>
+        <header className="text-center" style={{ marginBottom: '2rem' }}>
+          <h1 className="section-title">Meeting Minutes AI</h1>
+          <p style={{ color: '#a5b4fc', fontSize: '1.1rem', marginBottom: '1.5rem' }}>Transform your meetings into actionable insights with AI-powered analysis</p>
+          <div className="status-bar">
+            <span className="status-pill"><span className="status-indicator complete"></span>Powered by Gemini</span>
+            <span className="status-pill"><span className="status-indicator complete"></span>Real-time Analysis</span>
+            <span className="status-pill"><span className="status-indicator complete"></span>Secure & Private</span>
           </div>
         </header>
-
-        <main className="w-full flex-grow flex flex-col items-center justify-center p-0">
-          {error && (
-             <div className="w-full max-w-md mx-auto text-center bg-red-900/50 p-4 rounded-lg border border-red-500/20 mb-8">
-                <h3 className="text-lg font-semibold text-red-300 mb-2">An Error Occurred</h3>
-                <p className="text-red-200 mb-4">{error}</p>
-                <button 
-                  onClick={handleResetError} 
-                  className="btn-primary">
-                  Try Again
-                </button>
-             </div>
-          )}
-          {!error && (
-            <div className="w-full animate-fade-in">
-              {renderContent()}
-            </div>
-          )}
-        </main>
-
-        <footer className="w-full text-center text-gray-400 mt-16 mb-4 animate-fade-in">
-          <p className="text-xs">
-            Built with ❤️ using React, TypeScript, and Gemini AI
-          </p>
-        </footer>
+        {error && (
+          <div className="w-full max-w-md mx-auto text-center bg-red-900/50 p-4 rounded-lg border border-red-500/20 mb-8">
+            <h3 className="text-lg font-semibold text-red-300 mb-2">An Error Occurred</h3>
+            <p className="text-red-200 mb-4">{error}</p>
+            <button 
+              onClick={handleResetError} 
+              className="btn-primary">
+              Try Again
+            </button>
+          </div>
+        )}
+        {!error && (
+          <div className="w-full animate-fade-in flex flex-col items-center">
+            {renderContent()}
+          </div>
+        )}
       </div>
+      <footer>
+        <p>Built with <span style={{ color: '#f87171' }}>❤️</span> using React, TypeScript, and Gemini AI</p>
+      </footer>
     </div>
   );
 };
