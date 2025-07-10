@@ -108,7 +108,7 @@ export const analyzeMeetingAudio = async (audioBase64: string, mimeType: string)
             },
         });
 
-        const jsonText = response.text.trim();
+        const jsonText = response.text?.trim() || '';
         const parsedJson = JSON.parse(jsonText);
 
         // Basic validation to ensure the parsed object matches the expected structure

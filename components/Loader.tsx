@@ -7,12 +7,27 @@ interface LoaderProps {
 
 export const Loader: React.FC<LoaderProps> = ({ message }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-8 space-y-4 text-center">
-      <svg className="animate-spin h-12 w-12 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-      </svg>
-      <p className="text-lg font-semibold text-gray-300">{message}</p>
+    <div className="flex flex-col items-center justify-center p-8 space-y-6 text-center animate-fade-in">
+      <div className="relative">
+        <div className="loading-spinner"></div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+      </div>
+      
+      <div className="space-y-2">
+        <h3 className="text-xl font-semibold text-gray-200">{message}</h3>
+        <p className="text-gray-400 text-sm">
+          Please wait while we process your audio...
+        </p>
+      </div>
+      
+      <div className="flex items-center space-x-2 text-sm text-gray-500">
+        <span className="status-indicator processing"></span>
+        <span>Processing with Gemini AI</span>
+      </div>
     </div>
   );
 };
