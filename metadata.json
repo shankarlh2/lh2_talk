@@ -1,0 +1,7 @@
+{
+  "name": "Meeting Minutes AI",
+  "description": "Record offline meetings and automatically generate a full transcript, summary, minutes of meeting, and action items using AI. Supports mixed Hindi and English conversations.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
